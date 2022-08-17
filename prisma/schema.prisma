@@ -19,9 +19,37 @@ enum UsuarioNivel {
 }
 
 model Usuario {
-  cpfCnpj        String @id @db.VarChar(16)
-  senha          String
-  nivel          UsuarioNivel
+  cpfCnpj String @id @db.VarChar(16)
+  senha   String
+  nivel   UsuarioNivel
+
+  instituicao Instituicao?
+  pessoa      Pessoa?
 
   @@map("usuario")
+}
+
+model Instituicao {
+  cpfCnpj  String @id @db.VarChar(16)
+  nome     String
+  endereco String
+  contato  String
+
+  Usuario Usuario? @relation(fields: [cpfCnpj], references: [cpfCnpj], onDelete: Cascade)
+
+  professor Pessoa[]
+
+  @@map("instituicao")
+}
+
+model Pessoa {
+  cpfCnpj            String @id @db.VarChar(16)
+  cpfCnpjInstituicao String @db.VarChar(16)
+  nome               String
+  matricula          String @unique
+
+  Usuario     Usuario?     @relation(fields: [cpfCnpj], references: [cpfCnpj], onDelete: Cascade)
+  Instituicao Instituicao? @relation(fields: [cpfCnpjInstituicao], references: [cpfCnpj])
+
+  @@map("pessoa")
 }
