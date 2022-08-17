@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { CreatePessoa, UpdatePessoa } from "../service/pessoa"
+import { CreatePessoa, UpdatePessoa, ListPessoa, GetPessoa } from "../service/pessoa"
 import { UsuarioNivel } from '@prisma/client'
 
 class CreateProfessorController {
@@ -26,6 +26,30 @@ class UpdatePessoaController {
     }
 }
 
+class ListProfessorController {
+    async execute(request: Request, response: Response) {
+        return listPessoa(response, UsuarioNivel.professor)
+    }
+}
+
+class ListAlunoController {
+    async execute(request: Request, response: Response) {
+        return listPessoa(response, UsuarioNivel.aluno)
+    }
+}
+
+class GetProfessorController {
+    async execute(request: Request, response: Response) {
+        return getPessoa(request, response, UsuarioNivel.professor)
+    }
+}
+
+class GetAlunoController {
+    async execute(request: Request, response: Response) {
+        return getPessoa(request, response, UsuarioNivel.aluno)
+    }
+}
+
 async function createPessoa(request: Request, response: Response, nivel: UsuarioNivel) {
     const { cpfCnpj, senha, cpfCnpjInstituicao, nome, matricula } = request.body;
     
@@ -35,4 +59,20 @@ async function createPessoa(request: Request, response: Response, nivel: Usuario
     return response.json(pessoa);
 }
 
-export { CreateProfessorController, CreateAlunoController, UpdatePessoaController }
+async function listPessoa(response: Response, nivel: UsuarioNivel) {
+    const listPessoa = new ListPessoa();
+    const pessoas    = await listPessoa.execute(nivel);
+
+    return response.json(pessoas);
+}
+
+async function getPessoa(request: Request, response: Response, nivel: UsuarioNivel) {
+    const { cpfCnpj } = request.params;
+
+    const getPessoa = new GetPessoa();
+    const pessoa    = await getPessoa.execute(cpfCnpj, nivel);
+
+    return response.json(pessoa);
+}
+
+export { CreateProfessorController, CreateAlunoController, UpdatePessoaController, ListProfessorController, ListAlunoController, GetProfessorController, GetAlunoController }
