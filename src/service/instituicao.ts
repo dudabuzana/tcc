@@ -40,4 +40,31 @@ class UpdateInstituicao {
     }
 }
 
-export { CreateInstituicao, UpdateInstituicao }
+class ListInstituicao {
+    async execute() {
+        return await prisma.usuario.findMany({
+          where: {
+            nivel: UsuarioNivel.instituicao
+          },
+          include: {
+            instituicao: true
+          }
+        });
+    }
+}
+
+class GetInstituicao {
+    async execute(cpfCnpj: string) {
+        return await prisma.usuario.findFirst({
+          where: {
+            nivel: UsuarioNivel.instituicao,
+            cpfCnpj
+          },
+          include: {
+            instituicao: true
+          }
+        });
+    }
+}
+
+export { CreateInstituicao, UpdateInstituicao, ListInstituicao, GetInstituicao }

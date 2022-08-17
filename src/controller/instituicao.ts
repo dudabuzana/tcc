@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateInstituicao, UpdateInstituicao } from "../service/instituicao";
+import { CreateInstituicao, UpdateInstituicao, ListInstituicao, GetInstituicao } from "../service/instituicao";
 import { UsuarioNivel } from '@prisma/client';
 
 class CreateInstituicaoController {
@@ -25,4 +25,24 @@ class UpdateInstituicaoController {
     }
 }
 
-export { CreateInstituicaoController, UpdateInstituicaoController };
+class ListInstituicaoController {
+    async execute(request: Request, response: Response) {
+        const listInstituicao = new ListInstituicao();
+        const instituicoes    = await listInstituicao.execute();
+
+        return response.json(instituicoes);
+    }
+}
+
+class GetInstituicaoController {
+    async execute(request: Request, response: Response) {
+        const { cpfCnpj } = request.params;
+
+        const getInstituicao = new GetInstituicao();
+        const instituicao    = await getInstituicao.execute(cpfCnpj);
+
+        return response.json(instituicao);
+    }
+}
+
+export { CreateInstituicaoController, UpdateInstituicaoController, ListInstituicaoController, GetInstituicaoController };

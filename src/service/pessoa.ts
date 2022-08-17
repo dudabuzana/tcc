@@ -49,6 +49,33 @@ class UpdatePessoa {
     }
 }
 
+class ListPessoa {
+    async execute(nivel: UsuarioNivel) {
+        return await prisma.usuario.findMany({
+          where: {
+            nivel
+          },
+          include: {
+            pessoa: true
+          }
+        });
+    }
+}
+
+class GetPessoa {
+    async execute(cpfCnpj: string, nivel: UsuarioNivel) {
+        return await prisma.usuario.findFirst({
+          where: {
+            nivel,
+            cpfCnpj
+          },
+          include: {
+            pessoa: true
+          }
+        });
+    }
+}
+
 async function validate(matricula: string) {
     if (await existsPessoa(matricula)) {
         return MATRICULA_EXISTENTE;
@@ -64,4 +91,4 @@ async function existsPessoa(matricula: string) {
     });
 }
 
-export { CreatePessoa, UpdatePessoa }
+export { CreatePessoa, UpdatePessoa, ListPessoa, GetPessoa }
