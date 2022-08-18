@@ -46,5 +46,14 @@ class ListTurma {
         });
     }
 }
+class ListTurmaProfessor {
+    async execute(cpfCnpj: string) {
+        return await prisma.turma.findMany({
+            where: {
+                cpfCnpj
+            }
+        });
+    }
+}
 
-export { CreateTurma, UpdateTurma, DeleteTurma, ListTurma }
+export { CreateTurma, UpdateTurma, DeleteTurma, ListTurma, ListTurmaProfessor }
