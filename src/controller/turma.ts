@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateTurma, UpdateTurma, DeleteTurma, ListTurma } from "../service/turma";
+import { CreateTurma, UpdateTurma, DeleteTurma, ListTurma, ListTurmaProfessor } from "../service/turma";
 
 class CreateTurmaController {
     async execute(request: Request, response: Response) {
@@ -46,4 +46,15 @@ class ListTurmaController {
     }
 }
 
-export { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController }
+class ListTurmaProfessorController {
+    async execute(request: Request, response: Response) {
+        const { cpfCnpj } = request.params;
+
+        const listTurma = new ListTurmaProfessor();
+        const turmas    = await listTurma.execute(cpfCnpj);
+
+        return response.json(turmas);
+    }
+}
+
+export { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController, ListTurmaProfessorController }
