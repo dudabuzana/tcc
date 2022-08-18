@@ -37,7 +37,8 @@ model Instituicao {
 
   Usuario Usuario? @relation(fields: [cpfCnpj], references: [cpfCnpj], onDelete: Cascade)
 
-  professor Pessoa[]
+  professor  Pessoa[]
+  disciplina Disciplina[]
 
   @@map("instituicao")
 }
@@ -52,4 +53,15 @@ model Pessoa {
   Instituicao Instituicao? @relation(fields: [cpfCnpjInstituicao], references: [cpfCnpj])
 
   @@map("pessoa")
+}
+
+model Disciplina {
+  id      String @id @default(uuid())
+  cpfCnpj String @db.VarChar(16)
+  nome    String 
+  curso   String
+
+  Instituicao Instituicao? @relation(fields: [cpfCnpj], references: [cpfCnpj])
+
+  @@map("disciplina")
 }
