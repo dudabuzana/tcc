@@ -3,7 +3,7 @@ import { DeleteUsuarioController } from "./controller/usuario";
 import { CreateInstituicaoController, UpdateInstituicaoController, ListInstituicaoController, GetInstituicaoController } from "./controller/instituicao";
 import { CreateProfessorController, CreateAlunoController, UpdatePessoaController, ListProfessorController, ListAlunoController, GetProfessorController, GetAlunoController } from "./controller/pessoa";
 import { CreateDisciplinaController, UpdateDisciplinaController, DeleteDisciplinaController, ListDisciplinaController, GetDisciplinaController } from "./controller/disciplina";
-import { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController, ListTurmaProfessorController } from "./controller/turma";
+import { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController, ListTurmaProfessorController, GetTurmaController } from "./controller/turma";
 import authMiddleware from "./middlewares/authMiddleware";
 
 const router = Router();
@@ -60,9 +60,11 @@ router.get   ("/disciplina/:id/turma", listTurma.execute);
 const createTurma = new CreateTurmaController();
 const updateTurma = new UpdateTurmaController();
 const deleteTurma = new DeleteTurmaController();
+const getTurma    = new GetTurmaController();
 
 router.post  ("/turma"    , createTurma.execute);
 router.put   ("/turma/:id", updateTurma.execute);
 router.delete("/turma/:id", deleteTurma.execute);
+router.get   ("/turma/:id", getTurma.execute);
 
 export { router };
