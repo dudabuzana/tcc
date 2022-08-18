@@ -3,6 +3,7 @@ import { DeleteUsuarioController } from "./controller/usuario";
 import { CreateInstituicaoController, UpdateInstituicaoController, ListInstituicaoController, GetInstituicaoController } from "./controller/instituicao";
 import { CreateProfessorController, CreateAlunoController, UpdatePessoaController, ListProfessorController, ListAlunoController, GetProfessorController, GetAlunoController } from "./controller/pessoa";
 import { CreateDisciplinaController, UpdateDisciplinaController, DeleteDisciplinaController, ListDisciplinaController, GetDisciplinaController } from "./controller/disciplina";
+import { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController } from "./controller/turma";
 import authMiddleware from "./middlewares/authMiddleware";
 
 const router = Router();
@@ -51,5 +52,15 @@ router.put   ("/disciplina/:id"     , updateDisciplina.execute);
 router.delete("/disciplina/:id"     , deleteDisciplina.execute);
 router.get   ("/disciplina/:cpfCnpj", listDisciplina.execute);
 router.get   ("/disciplina/:id"     , getDisciplina.execute);
+
+const createTurma = new CreateTurmaController();
+const updateTurma = new UpdateTurmaController();
+const deleteTurma = new DeleteTurmaController();
+const listTurma   = new ListTurmaController();
+
+router.post  ("/turma"              , createTurma.execute);
+router.put   ("/turma/:id"          , updateTurma.execute);
+router.delete("/turma/:id"          , deleteTurma.execute);
+router.get   ("/turma/:idDisciplina", listTurma.execute);
 
 export { router };
