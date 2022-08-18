@@ -39,9 +39,9 @@ class DeleteDisciplina {
 class ListDisciplina {
     async execute(cpfCnpj: string) {
         return await prisma.disciplina.findMany({
-          where: {
-            cpfCnpj
-          }
+            where: {
+                cpfCnpj
+            }
         });
     }
 }
@@ -49,9 +49,9 @@ class ListDisciplina {
 class GetDisciplina {
     async execute(id: string) {
         return await prisma.disciplina.findFirst({
-          where: {
-            id
-          },
+            where: {
+                id
+            },
         });
     }
 }
