@@ -46,6 +46,7 @@ class ListTurma {
         });
     }
 }
+
 class ListTurmaProfessor {
     async execute(cpfCnpj: string) {
         return await prisma.turma.findMany({
@@ -56,4 +57,14 @@ class ListTurmaProfessor {
     }
 }
 
-export { CreateTurma, UpdateTurma, DeleteTurma, ListTurma, ListTurmaProfessor }
+class GetTurma {
+    async execute(id: string) {
+        return await prisma.turma.findFirst({
+            where: {
+                id
+            },
+        });
+    }
+}
+
+export { CreateTurma, UpdateTurma, DeleteTurma, ListTurma, ListTurmaProfessor, GetTurma }
