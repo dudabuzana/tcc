@@ -52,7 +52,8 @@ model Pessoa {
   Usuario     Usuario?     @relation(fields: [cpfCnpj], references: [cpfCnpj], onDelete: Cascade)
   Instituicao Instituicao? @relation(fields: [cpfCnpjInstituicao], references: [cpfCnpj])
 
-  turma Turma[]
+  turma Turma[] //Professor
+  alunoTurma AlunoTurma[] //Aluno
 
   @@map("pessoa")
 }
@@ -79,5 +80,21 @@ model Turma {
   Pessoa     Pessoa?     @relation(fields: [cpfCnpj], references: [cpfCnpj])
   Disciplina Disciplina? @relation(fields: [idDisciplina], references: [id])
 
+  alunoTurma AlunoTurma[]
+
   @@map("turma")
+}
+
+model AlunoTurma {
+  id      String
+  cpfCnpj String @db.VarChar(16)
+
+  Turma  Turma?  @relation(fields: [id], references: [id])
+  Pessoa Pessoa? @relation(fields: [cpfCnpj], references: [cpfCnpj])
+
+  @@id([id, cpfCnpj])
+
+  @@unique(fields: [id, cpfCnpj], name: "idCpfCnpj")
+
+  @@map("aluno_turma")
 }

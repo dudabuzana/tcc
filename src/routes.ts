@@ -4,6 +4,7 @@ import { CreateInstituicaoController, UpdateInstituicaoController, ListInstituic
 import { CreateProfessorController, CreateAlunoController, UpdatePessoaController, ListProfessorController, ListAlunoController, GetProfessorController, GetAlunoController } from "./controller/pessoa";
 import { CreateDisciplinaController, UpdateDisciplinaController, DeleteDisciplinaController, ListDisciplinaController, GetDisciplinaController } from "./controller/disciplina";
 import { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController, ListTurmaProfessorController, GetTurmaController } from "./controller/turma";
+import { CreateAlunoTurmaController, DeleteAlunoTurmaController, ListAlunoTurmaController, ListTurmaAlunoController } from "./controller/aluno_turma";
 import authMiddleware from "./middlewares/authMiddleware";
 
 const router = Router();
@@ -35,15 +36,17 @@ router.get   ("/professor"               , listProfessor.execute);
 router.get   ("/professor/:cpfCnpj"      , getProfessor.execute);
 router.get   ("/professor/:cpfCnpj/turma", listTurmaProfessor.execute);
 
-const createAluno = new CreateAlunoController();
-const listAluno   = new ListAlunoController();
-const getAluno    = new GetAlunoController();
+const createAluno    = new CreateAlunoController();
+const listAluno      = new ListAlunoController();
+const getAluno       = new GetAlunoController();
+const listTurmaAluno = new ListTurmaAlunoController();
 
-router.post  ("/aluno"         , createAluno.execute);
-router.put   ("/aluno/:cpfCnpj", updatePessoa.execute);
-router.delete("/aluno/:cpfCnpj", deleteUsuario.execute);
-router.get   ("/aluno"         , listAluno.execute);
-router.get   ("/aluno/:cpfCnpj", getAluno.execute);
+router.post  ("/aluno"               , createAluno.execute);
+router.put   ("/aluno/:cpfCnpj"      , updatePessoa.execute);
+router.delete("/aluno/:cpfCnpj"      , deleteUsuario.execute);
+router.get   ("/aluno"               , listAluno.execute);
+router.get   ("/aluno/:cpfCnpj"      , getAluno.execute);
+router.get   ("/aluno/:cpfCnpj/turma", listTurmaAluno.execute);
 
 const createDisciplina = new CreateDisciplinaController();
 const updateDisciplina = new UpdateDisciplinaController();
@@ -57,14 +60,22 @@ router.delete("/disciplina/:id"      , deleteDisciplina.execute);
 router.get   ("/disciplina/:id"      , getDisciplina.execute);
 router.get   ("/disciplina/:id/turma", listTurma.execute);
 
-const createTurma = new CreateTurmaController();
-const updateTurma = new UpdateTurmaController();
-const deleteTurma = new DeleteTurmaController();
-const getTurma    = new GetTurmaController();
+const createTurma    = new CreateTurmaController();
+const updateTurma    = new UpdateTurmaController();
+const deleteTurma    = new DeleteTurmaController();
+const getTurma       = new GetTurmaController();
+const listAlunoTurma = new ListAlunoTurmaController();
 
-router.post  ("/turma"    , createTurma.execute);
-router.put   ("/turma/:id", updateTurma.execute);
-router.delete("/turma/:id", deleteTurma.execute);
-router.get   ("/turma/:id", getTurma.execute);
+router.post  ("/turma"          , createTurma.execute);
+router.put   ("/turma/:id"      , updateTurma.execute);
+router.delete("/turma/:id"      , deleteTurma.execute);
+router.get   ("/turma/:id"      , getTurma.execute);
+router.get   ("/turma/:id/aluno", listAlunoTurma.execute);
+
+const createAlunoTurma = new CreateAlunoTurmaController();
+const deleteAlunoTurma = new DeleteAlunoTurmaController();
+
+router.post  ("/aluno_turma"             , createAlunoTurma.execute);
+router.delete("/aluno_turma/:id/:cpfCnpj", deleteAlunoTurma.execute);
 
 export { router };
