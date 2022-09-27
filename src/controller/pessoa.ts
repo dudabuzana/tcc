@@ -54,7 +54,7 @@ async function createPessoa(request: Request, response: Response, nivel: Usuario
     const { cpfCnpj, senha, cpfCnpjInstituicao, nome, matricula } = request.body;
     
     const createPessoa  = new CreatePessoa();
-    const pessoa        = await createPessoa.execute(cpfCnpj, senha, nivel, cpfCnpjInstituicao, nome, matricula);
+    const pessoa        = await createPessoa.execute(cpfCnpj.match(/\d/g).join(""), senha, nivel, cpfCnpjInstituicao, nome, matricula);
 
     return response.json(pessoa);
 }

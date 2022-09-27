@@ -38,11 +38,14 @@ class DeleteDisciplina {
 
 class ListDisciplina {
     async execute(cpfCnpj: string) {
-        return await prisma.disciplina.findMany({
-            where: {
-                cpfCnpj
-            }
-        });
+        if (cpfCnpj != null) {
+            return await prisma.disciplina.findMany({
+                where: {
+                    cpfCnpj
+                }
+            });    
+        }
+        return await prisma.disciplina.findMany();
     }
 }
 

@@ -2,6 +2,8 @@ import { prisma } from '../prisma'
 import { hash } from "bcryptjs"
 import { cpf, cnpj } from 'cpf-cnpj-validator'
 import { UsuarioNivel } from '@prisma/client'
+import { compare } from "bcryptjs";
+import { sign } from "jsonwebtoken";
 import { CPF_CNPJ_INVALIDO, SENHA_CURTA, CPF_CNPJ_EXISTENTE } from '../errors'
 
 class CreateUsuario {
@@ -46,6 +48,46 @@ class DeleteUsuario {
     }
 }
 
+class LoginUsuario {
+    async execute(login: string, senha: string) {
+        const usuario = await existsUsuario(login)
+        if (!usuario) {
+            throw new Error("Email/Senha incorretos");
+        }
+        const passwordMatch = await compare(senha, usuario.senha);
+
+        if (!passwordMatch) {
+            throw new Error("Email/Senha incorretos");
+        }
+
+        const token = sign(
+            {
+                id: usuario.cpfCnpj,
+            },
+            "4f93ac9d10cb751b8c9c646bc9dbccb9",
+            {
+                subject: usuario.cpfCnpj,
+                expiresIn: "5d",
+            }
+        );
+
+      return { token, usuario };
+    }
+}
+class SetTokenUsuario {
+    async execute(cpfCnpj: string, token: string) {
+        const usuario = await prisma.usuario.update({
+            where: {
+                cpfCnpj,
+            },
+            data: {
+                token,
+            },
+        });
+        return usuario;
+    } 
+}
+
 async function validate(cpfCnpj: string, senha: string) {
     var err = null
     if (cpfCnpj.length > 11 && !cnpj.isValid(cpfCnpj)) {
@@ -68,4 +110,4 @@ async function existsUsuario(cpfCnpj: string) {
     });
 }
 
-export { CreateUsuario, UpdateUsuario, DeleteUsuario }
+export { CreateUsuario, UpdateUsuario, DeleteUsuario, LoginUsuario, SetTokenUsuario }

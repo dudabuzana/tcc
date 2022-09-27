@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DeleteUsuario } from "../service/usuario";
+import { DeleteUsuario, LoginUsuario, SetTokenUsuario } from "../service/usuario";
 
 class DeleteUsuarioController {
     async execute(request: Request, response: Response) {
@@ -12,4 +12,17 @@ class DeleteUsuarioController {
     }
 }
 
-export { DeleteUsuarioController }
+class LoginUsuarioController {
+    async execute(request: Request, response: Response) {
+        const { login, senha } = request.body;
+
+        const loginUsuario = new LoginUsuario();
+        const { token, usuario } = await loginUsuario.execute(login.match(/\d/g).join(""), senha);
+
+        new SetTokenUsuario().execute(usuario.cpfCnpj, token);
+
+        return response.json({'token':token, 'cpfCnpj': usuario.cpfCnpj, 'nivel': usuario.nivel});
+    }
+}
+
+export { DeleteUsuarioController, LoginUsuarioController }
