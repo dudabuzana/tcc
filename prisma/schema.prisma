@@ -19,7 +19,8 @@ enum UsuarioNivel {
 }
 
 model Usuario {
-  cpfCnpj String @id @db.VarChar(16)
+  cpfCnpj String  @id @db.VarChar(16)
+  token   String? @unique
   senha   String
   nivel   UsuarioNivel
 

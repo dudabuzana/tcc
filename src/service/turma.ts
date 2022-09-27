@@ -39,11 +39,18 @@ class DeleteTurma {
 
 class ListTurma {
     async execute(idDisciplina: string) {
-        return await prisma.turma.findMany({
-            where: {
-                idDisciplina
-            }
-        });
+        if (idDisciplina !== null) {
+            return await prisma.turma.findMany({
+                where: {
+                    idDisciplina
+                },
+                include: {
+                    Disciplina: true,
+                    Pessoa: true,
+                },
+            });    
+        }
+        return await prisma.turma.findMany();
     }
 }
 

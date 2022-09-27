@@ -56,8 +56,13 @@ class ListPessoa {
             nivel
           },
           include: {
-            pessoa: true
-          }
+            pessoa: true,
+          },
+          orderBy: {
+            pessoa: {
+                nome: 'asc'
+            }
+          },
         });
     }
 }
