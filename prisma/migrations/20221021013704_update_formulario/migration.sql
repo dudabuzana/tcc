@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "formulario" ADD COLUMN     "dataCriacao" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

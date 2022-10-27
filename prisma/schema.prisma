@@ -55,6 +55,7 @@ model Pessoa {
 
   turma Turma[] //Professor
   alunoTurma AlunoTurma[] //Aluno
+  resposta Resposta[] //Aluno
 
   @@map("pessoa")
 }
@@ -82,6 +83,7 @@ model Turma {
   Disciplina Disciplina? @relation(fields: [idDisciplina], references: [id])
 
   alunoTurma AlunoTurma[]
+  formulario Formulario[]
 
   @@map("turma")
 }
@@ -98,4 +100,52 @@ model AlunoTurma {
   @@unique(fields: [id, cpfCnpj], name: "idCpfCnpj")
 
   @@map("aluno_turma")
+}
+
+model Formulario {
+  id          String @id @default(uuid())
+  idTurma     String
+  status      String
+  dataCriacao DateTime @default(now())
+
+  Turma  Turma?  @relation(fields: [idTurma], references: [id])
+
+  perguntaFormulario PerguntaFormulario[]
+
+  @@map("formulario")
+}
+
+enum PerguntaTipo {
+  likert
+  descritivo
+}
+
+model PerguntaFormulario {
+  id           Int @default(autoincrement())
+  idFormulario String
+  titulo       String
+  descricao    String
+  tipo         PerguntaTipo
+
+  @@id([id, idFormulario])
+
+  Formulario Formulario? @relation(fields: [idFormulario], references: [id])
+
+  resposta Resposta[]
+
+  @@map("pergunta_formulario")
+}
+
+model Resposta {
+  idPergunta   Int
+  idFormulario String
+  cpfCnpj      String
+  resposta     String
+
+  @@id([idPergunta, idFormulario, cpfCnpj])
+
+  PerguntaFormulario PerguntaFormulario? @relation(fields: [idPergunta, idFormulario], references: [id, idFormulario])
+  Pessoa Pessoa? @relation(fields: [cpfCnpj], references: [cpfCnpj])
+
+  @@map("resposta")
 }

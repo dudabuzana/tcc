@@ -70,6 +70,9 @@ class GetTurma {
             where: {
                 id
             },
+            include: {
+                Pessoa: true
+            }
         });
     }
 }

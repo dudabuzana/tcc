@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateAlunoTurma, DeleteAlunoTurma, ListAlunoTurma, ListTurmaAluno } from "../service/aluno_turma";
+import { CreateAlunoTurma, DeleteAlunoTurma, ListAlunoTurma, ListTurmaAluno, ListTurmaAlunoFormulario } from "../service/aluno_turma";
 
 class CreateAlunoTurmaController {
     async execute(request: Request, response: Response) {
@@ -45,4 +45,15 @@ class ListTurmaAlunoController {
     }
 }
 
-export { CreateAlunoTurmaController, DeleteAlunoTurmaController, ListAlunoTurmaController, ListTurmaAlunoController }
+class ListTurmaAlunoFormularioController {
+    async execute(request: Request, response: Response) {
+        const { cpfCnpj } = request.params;
+
+        const listAlunoTurma = new ListTurmaAlunoFormulario();
+        const turmasAluno    = await listAlunoTurma.execute(cpfCnpj);
+
+        return response.json(turmasAluno);
+    }
+}
+
+export { CreateAlunoTurmaController, DeleteAlunoTurmaController, ListAlunoTurmaController, ListTurmaAlunoController, ListTurmaAlunoFormularioController }
