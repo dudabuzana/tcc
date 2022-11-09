@@ -5,7 +5,7 @@ import { CreateProfessorController, CreateAlunoController, UpdatePessoaControlle
 import { CreateDisciplinaController, UpdateDisciplinaController, DeleteDisciplinaController, ListDisciplinaController, GetDisciplinaController } from "./controller/disciplina";
 import { CreateTurmaController, UpdateTurmaController, DeleteTurmaController, ListTurmaController, ListTurmaProfessorController, GetTurmaController } from "./controller/turma";
 import { CreateAlunoTurmaController, DeleteAlunoTurmaController, ListAlunoTurmaController, ListTurmaAlunoController, ListTurmaAlunoFormularioController } from "./controller/aluno_turma";
-import { CreateFormularioController, UpdateFormularioController, DeleteFormularioController, ListFormularioTurmaController } from './controller/formulario';
+import { CreateFormularioController, UpdateFormularioController, UpdateFormularioPerguntaController, DeleteFormularioController, ListFormularioTurmaController, ListFormularioController, ListFormularioProfessorController } from './controller/formulario';
 import { CreatePerguntaController, ListPerguntaFormularioController } from './controller/pergunta_formulario';
 import { CreateRespostaController, ListRespostaFormularioController, ListRespostaFormularioAlunoController } from './controller/resposta';
 import authMiddleware from "./middlewares/authMiddleware";
@@ -26,18 +26,20 @@ router.get   ("/instituicao"                    , listInstituicao.execute);
 router.get   ("/instituicao/:cpfCnpj"           , authMiddleware, getInstituicao.execute);
 router.get   ("/instituicao/:cpfCnpj/disciplina", authMiddleware, listDisciplina.execute);
 
-const createProfessor    = new CreateProfessorController();
-const updatePessoa       = new UpdatePessoaController();
-const listProfessor      = new ListProfessorController();
-const getProfessor       = new GetProfessorController();
-const listTurmaProfessor = new ListTurmaProfessorController();
+const createProfessor         = new CreateProfessorController();
+const updatePessoa            = new UpdatePessoaController();
+const listProfessor           = new ListProfessorController();
+const getProfessor            = new GetProfessorController();
+const listTurmaProfessor      = new ListTurmaProfessorController();
+const listFormularioProfessor = new ListFormularioProfessorController();
 
-router.post  ("/professor"               , createProfessor.execute);
-router.put   ("/professor/:cpfCnpj"      , authMiddleware, updatePessoa.execute);
-router.delete("/professor/:cpfCnpj"      , authMiddleware, deleteUsuario.execute);
-router.get   ("/professor"               , authMiddleware, listProfessor.execute);
-router.get   ("/professor/:cpfCnpj"      , authMiddleware, getProfessor.execute);
-router.get   ("/professor/:cpfCnpj/turma", authMiddleware, listTurmaProfessor.execute);
+router.post  ("/professor"                    , createProfessor.execute);
+router.put   ("/professor/:cpfCnpj"           , authMiddleware, updatePessoa.execute);
+router.delete("/professor/:cpfCnpj"           , authMiddleware, deleteUsuario.execute);
+router.get   ("/professor"                    , authMiddleware, listProfessor.execute);
+router.get   ("/professor/:cpfCnpj"           , authMiddleware, getProfessor.execute);
+router.get   ("/professor/:cpfCnpj/turma"     , authMiddleware, listTurmaProfessor.execute);
+router.get   ("/professor/:cpfCnpj/formulario", authMiddleware, listFormularioProfessor.execute);
 
 const createAluno              = new CreateAlunoController();
 const listAluno                = new ListAlunoController();
@@ -89,15 +91,19 @@ const deleteAlunoTurma = new DeleteAlunoTurmaController();
 router.post  ("/aluno_turma"             , authMiddleware, createAlunoTurma.execute);
 router.delete("/aluno_turma/:id/:cpfCnpj", authMiddleware, deleteAlunoTurma.execute);
 
-const createFormulario = new CreateFormularioController();
-const updateFormulario = new UpdateFormularioController();
-const deleteFormulario = new DeleteFormularioController();
-const listPerguntaFormulario = new ListPerguntaFormularioController();
-const listRespostaFormulario = new ListRespostaFormularioController();
+const createFormulario         = new CreateFormularioController();
+const updateFormulario         = new UpdateFormularioController();
+const updateFormularioPergunta = new UpdateFormularioPerguntaController();
+const deleteFormulario         = new DeleteFormularioController();
+const listFormulario           = new ListFormularioController();
+const listPerguntaFormulario   = new ListPerguntaFormularioController();
+const listRespostaFormulario   = new ListRespostaFormularioController();
 
 router.post  ("/formulario"             , authMiddleware, createFormulario.execute);
 router.put   ("/formulario/:id"         , authMiddleware, updateFormulario.execute);
+router.put   ("/formulario/:id/pergunta", authMiddleware, updateFormularioPergunta.execute);
 router.delete("/formulario/:id"         , authMiddleware, deleteFormulario.execute);
+router.get   ("/formulario"             , authMiddleware, listFormulario.execute);
 router.get   ("/formulario/:id/pergunta", authMiddleware, listPerguntaFormulario.execute);
 router.get   ("/formulario/:id/resposta", authMiddleware, listRespostaFormulario.execute);
 

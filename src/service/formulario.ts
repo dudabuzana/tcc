@@ -51,5 +51,37 @@ class ListFormularioTurma {
         });
     }
 }
+class ListFormulario {
+    async execute() {
+        return await prisma.formulario.findMany({
+            include: {
+                Turma: {
+                    include: {
+                        Disciplina: true
+                    }
+                }
+            }
+        });
+    }
+}
 
-export { CreateFormulario, UpdateFormulario, DeleteFormulario, ListFormularioTurma }
+class ListFormularioProfessor {
+    async execute(cpfCnpj: string) {
+        return await prisma.formulario.findMany({
+            where: {
+                Turma: {
+                    cpfCnpj
+                }
+            },
+            include: {
+                Turma: {
+                    include: {
+                        Disciplina: true
+                    }
+                }
+            }
+        });
+    }
+}
+
+export { CreateFormulario, UpdateFormulario, DeleteFormulario, ListFormularioTurma, ListFormulario, ListFormularioProfessor }

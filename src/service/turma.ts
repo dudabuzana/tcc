@@ -59,7 +59,11 @@ class ListTurmaProfessor {
         return await prisma.turma.findMany({
             where: {
                 cpfCnpj
-            }
+            },
+            include: {
+                Disciplina: true,
+                Pessoa: true,
+            },
         });
     }
 }

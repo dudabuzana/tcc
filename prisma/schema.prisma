@@ -129,7 +129,7 @@ model PerguntaFormulario {
 
   @@id([id, idFormulario])
 
-  Formulario Formulario? @relation(fields: [idFormulario], references: [id])
+  Formulario Formulario? @relation(fields: [idFormulario], references: [id], onDelete: Cascade)
 
   resposta Resposta[]
 

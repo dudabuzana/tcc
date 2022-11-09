@@ -14,6 +14,19 @@ class CreatePergunta {
     }
 }
 
+class UpdatePergunta {
+    async execute(id: number, idFormulario: string, titulo: string, descricao: string, tipo: PerguntaTipo) {
+        return await prisma.$queryRaw`
+            UPDATE pergunta_formulario
+               SET "titulo" = ${titulo},
+                   "descricao" = ${descricao},
+                   "tipo" = ${tipo}
+             WHERE "id" = ${id}
+               AND "idFormulario" = ${idFormulario}
+             `;
+    }
+}
+
 class ListPerguntaFormulario {
     async execute(idFormulario: string) {
         return await prisma.perguntaFormulario.findMany({
@@ -35,4 +48,4 @@ class ListPerguntaFormulario {
     }
 }
 
-export { CreatePergunta, ListPerguntaFormulario }
+export { CreatePergunta, ListPerguntaFormulario, UpdatePergunta }
