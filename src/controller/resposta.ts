@@ -50,7 +50,6 @@ async function VerificaEnvioEmailController(resposta: Resposta ) {
 
     const getAlerta = new GetAlerta();
     const alerta    = await getAlerta.execute(formulario.Turma.Pessoa.cpfCnpj);
-    console.log('ALERTA', alerta);
 
     if(alerta !== null) {
         const percentual = alerta.responseValue;
@@ -59,21 +58,15 @@ async function VerificaEnvioEmailController(resposta: Resposta ) {
             const listResposta = new GetQuantidadeRespostasFormulario();
             const respostas    = await listResposta.execute(resposta.idFormulario);
             const qtdRespostas = respostas[0].quantidade;
-            console.log('RESPOSTA', qtdRespostas);
             
             const listAlunos = new ListAlunoTurma();
             const alunos     = await listAlunos.execute(formulario.Turma.id);
             const qtdAlunos  = alunos.length;
-            console.log('ALUNOS', alunos);
 
             const verify = (qtdAlunos * percentual) / 100;
 
-            console.log('VERIFY', verify);
-
             if(qtdRespostas >= verify) {
-                console.log('ENTROU');
-                //enviaEmail
-                sendMail();
+                sendMail(formulario.Turma.Pessoa.nome, formulario.dataCriacao, percentual);
             }
         }
     }
