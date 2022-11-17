@@ -44,4 +44,13 @@ class ListRespostaFormularioAluno {
     }
 }
 
-export { CreateResposta, ListRespostaFormulario, ListRespostaFormularioAluno }
+class GetQuantidadeRespostasFormulario {
+    async execute(idFormulario: string) {
+        return await prisma.$queryRaw`
+            SELECT COUNT(DISTINCT(r."cpfCnpj")) AS "quantidade"
+              FROM resposta r
+             WHERE r."idFormulario" = ${idFormulario}`;
+    }
+}
+
+export { CreateResposta, ListRespostaFormulario, ListRespostaFormularioAluno, GetQuantidadeRespostasFormulario }

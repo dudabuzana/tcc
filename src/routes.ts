@@ -8,6 +8,7 @@ import { CreateAlunoTurmaController, DeleteAlunoTurmaController, ListAlunoTurmaC
 import { CreateFormularioController, UpdateFormularioController, UpdateFormularioPerguntaController, DeleteFormularioController, ListFormularioTurmaController, ListFormularioController, ListFormularioProfessorController } from './controller/formulario';
 import { CreatePerguntaController, ListPerguntaFormularioController } from './controller/pergunta_formulario';
 import { CreateRespostaController, ListRespostaFormularioController, ListRespostaFormularioAlunoController } from './controller/resposta';
+import { CreateAlertaController, GetAlertaController } from './controller/alerta';
 import authMiddleware from "./middlewares/authMiddleware";
 
 const router = Router();
@@ -114,6 +115,12 @@ router.post("/pergunta", authMiddleware, createPergunta.execute);
 const createResposta = new CreateRespostaController();
 
 router.post("/resposta", authMiddleware, createResposta.execute);
+
+const createAlerta = new CreateAlertaController();
+const getAlerta = new GetAlertaController();
+
+router.post("/alerta", authMiddleware, createAlerta.execute);
+router.get ("/alerta/:cpfCnpj", authMiddleware, getAlerta.execute);
 
 const loginUsuario = new LoginUsuarioController();
 

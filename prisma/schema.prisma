@@ -149,3 +149,13 @@ model Resposta {
 
   @@map("resposta")
 }
+
+model Alerta { 
+  cpfCnpj       String @id @db.VarChar(16)
+  response      Boolean
+  responseValue Int
+  negative      Boolean
+  negativeValue Int
+
+  @@map("alerta")
+}

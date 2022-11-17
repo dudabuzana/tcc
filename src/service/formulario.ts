@@ -84,4 +84,21 @@ class ListFormularioProfessor {
     }
 }
 
-export { CreateFormulario, UpdateFormulario, DeleteFormulario, ListFormularioTurma, ListFormulario, ListFormularioProfessor }
+class GetFormulario {
+    async execute(id: string) {
+        return await prisma.formulario.findFirst({
+            where: {
+                id
+            },
+            include: {
+                Turma: {
+                    include: {
+                        Pessoa: true
+                    }
+                }
+            }
+        });
+    }
+}
+
+export { CreateFormulario, UpdateFormulario, DeleteFormulario, ListFormularioTurma, ListFormulario, ListFormularioProfessor, GetFormulario }
